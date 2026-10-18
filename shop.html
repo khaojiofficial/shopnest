@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop all products | ShopNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="shop" data-init="shop">
+<div id="site-header"></div>
+
+<main>
+  <div class="wrap ph">
+    <div class="crumbs"><a href="index.html">Home</a> / Shop</div>
+    <h1 id="collTitle">All products</h1>
+  </div>
+
+  <div class="wrap shop">
+    <aside class="filters" id="filters" aria-label="Filters">
+      <div class="fgroup"><h4>Search</h4><input class="input" id="shopSearch" type="search" placeholder="Search products" aria-label="Search products"></div>
+      <div class="fgroup"><h4>Collection</h4><div id="catFilters"></div></div>
+      <div class="fgroup"><h4>Availability</h4><label><input type="checkbox" id="stockOnly"> In stock only</label></div>
+      <div class="fgroup"><h4>Price up to <span id="priceVal">$250</span></h4><input type="range" id="priceRange" min="10" max="250" step="5" value="250" aria-label="Maximum price"></div>
+      <div class="fgroup" style="border:none"><button class="btn ghost sm" id="resetBtn">Clear all filters</button></div>
+    </aside>
+    <section>
+      <div class="tools">
+        <button class="btn ghost sm filter-toggle" id="filterToggle">Filters</button>
+        <span class="muted" id="count"></span>
+        <label class="muted">Sort by <select class="select" id="sortSel" style="margin-left:6px">
+          <option value="featured">Featured</option><option value="best">Best selling</option><option value="rating">Highest rated</option>
+          <option value="low">Price, low to high</option><option value="high">Price, high to low</option></select></label>
+      </div>
+      <div class="pgrid" id="shopGrid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))"></div>
+      <div class="empty" id="noResults" style="display:none"><h3>No products match your filters</h3><p class="muted">Try removing a filter or searching for something else.</p></div>
+    </section>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

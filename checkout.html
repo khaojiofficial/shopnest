@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | ShopNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="cart" data-init="checkout" data-layout="minimal">
+<div id="site-header"></div>
+
+<div id="coWrap">
+  <div class="co">
+    <div class="co-l"><div>
+      <div class="crumbs"><a href="cart.html">Cart</a> › <b>Checkout</b></div>
+      <form id="coForm">
+        <h2>Contact</h2>
+        <div class="field"><label for="cEmail">Email</label><input class="input" id="cEmail" name="cEmail" type="email" required autocomplete="email"></div>
+
+        <h2>Delivery</h2>
+        <div class="fgrid">
+          <div class="field s2"><label for="cName">Full name</label><input class="input" id="cName" name="cName" required autocomplete="name"></div>
+          <div class="field s2"><label for="addr">Address</label><input class="input" id="addr" name="addr" required autocomplete="street-address"></div>
+          <div class="field"><label for="city">City</label><input class="input" id="city" name="city" required autocomplete="address-level2"></div>
+          <div class="field"><label for="zip">Postal code</label><input class="input" id="zip" name="zip" required autocomplete="postal-code"></div>
+          <div class="field s2"><label for="phone">Phone</label><input class="input" id="phone" name="phone" type="tel" required autocomplete="tel"></div>
+        </div>
+
+        <h2>Shipping method</h2>
+        <label class="choice"><input type="radio" name="ship" value="std" checked><span class="gr">Standard<small>3 to 5 business days</small></span><b id="stdPrice" style="color:var(--ink)"></b></label>
+        <label class="choice"><input type="radio" name="ship" value="exp"><span class="gr">Express<small>1 to 2 business days</small></span><b id="expPrice" style="color:var(--ink)"></b></label>
+
+        <h2>Payment</h2>
+        <p class="note" style="margin:-6px 0 12px">Demo store: no real payment is taken. Please don't enter real card details.</p>
+        <label class="choice"><input type="radio" name="pay" value="card" checked><span class="gr">Credit or debit card</span></label>
+        <div class="card-box" id="cardBox">
+          <div class="field"><label for="cNum">Card number</label><input class="input" id="cNum" name="cNum" inputmode="numeric" autocomplete="off" placeholder="1234 5678 9012 3456"></div>
+          <div class="fgrid">
+            <div class="field" style="margin:0"><label for="cExp">Expiry (MM/YY)</label><input class="input" id="cExp" name="cExp" inputmode="numeric" maxlength="5" autocomplete="off"></div>
+            <div class="field" style="margin:0"><label for="cCvc">Security code</label><input class="input" id="cCvc" name="cCvc" inputmode="numeric" maxlength="4" autocomplete="off"></div>
+          </div>
+          <p class="err" id="cardErr" role="alert"></p>
+        </div>
+        <label class="choice"><input type="radio" name="pay" value="cod"><span class="gr">Cash on delivery</span></label>
+
+        <button class="btn full lg" style="margin-top:28px">Pay now</button>
+        <p class="note" style="margin-top:14px"><a class="link" href="cart.html" style="font-weight:400">Return to cart</a></p>
+      </form>
+    </div></div>
+
+    <aside class="co-r"><div>
+      <div id="coItems"></div>
+      <div class="code-row"><input class="input" id="codeIn" placeholder="Discount code" aria-label="Discount code"><button class="btn ghost" type="button" id="codeBtn">Apply</button></div>
+      <p class="note" id="codeMsg" style="min-height:1.4em"></p>
+      <div class="co-sum" id="coTotals"></div>
+    </div></aside>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

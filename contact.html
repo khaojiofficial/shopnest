@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact us | ShopNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="contact" data-init="contact">
+<div id="site-header"></div>
+<main>
+  <div class="wrap ph"><div class="crumbs"><a href="index.html">Home</a> / Contact</div><h1>Contact us</h1></div>
+  <div class="wrap contact">
+    <div>
+      <p style="margin-bottom:28px;max-width:380px">Questions about an order, a product or a return? Send us a message and we'll reply within one business day.</p>
+      <dl>
+        <div><dt>Address</dt><dd>123 Market Street, Your City</dd></div>
+        <div><dt>Phone</dt><dd>+00 123 456 7890</dd></div>
+        <div><dt>Email</dt><dd>support@shopnest.example</dd></div>
+        <div><dt>Hours</dt><dd>Monday to Saturday, 9:00 AM to 8:00 PM</dd></div>
+      </dl>
+    </div>
+    <form id="contactForm">
+      <div class="fgrid">
+        <div class="field"><label for="cn">Name</label><input class="input" id="cn" required autocomplete="name"></div>
+        <div class="field"><label for="ce">Email</label><input class="input" id="ce" type="email" required autocomplete="email"></div>
+        <div class="field s2"><label for="cs">Topic</label><select class="input" id="cs"><option>Order enquiry</option><option>Returns and refunds</option><option>Product question</option><option>Something else</option></select></div>
+        <div class="field s2"><label for="cm">Message</label><textarea class="input" id="cm" required></textarea></div>
+      </div>
+      <button class="btn lg">Send message</button>
+    </form>
+  </div>
+</main>
+<div id="site-footer"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

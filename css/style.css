@@ -312,6 +312,18 @@ details td:first-child{color:var(--mute);width:40%}
 .contact dt{font-weight:600;color:var(--ink)}
 .faq{max-width:780px;padding-bottom:96px}
 
+/* Photos */
+.th,.thumbs button{position:relative}
+.th img,.stage img,.coll img,.pimg img,.thumbs button img,.hero-art .t img,.split .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.thumbs button{overflow:hidden}
+.stage{overflow:hidden}
+.stage img,.thumbs button img{transition:transform .45s ease}
+.pimg img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pcard:hover .pimg img,.coll:hover img{transform:scale(1.05)}
+.coll img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.split .art{position:relative;overflow:hidden}
+.credit{font-size:.78rem;color:var(--mute)}
+
 /* Toast */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:13px 22px;border-radius:var(--r);z-index:200;opacity:0;pointer-events:none;transition:.25s;font-size:.92rem}
 .toast.show{opacity:1;transform:translate(-50%,0)}

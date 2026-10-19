@@ -46,6 +46,12 @@
   const stars = r => "★".repeat(Math.round(r)) + "☆".repeat(5 - Math.round(r));
   const off = p => p.old ? Math.round((1 - p.price / p.old) * 100) : 0;
   const priceHTML = p => p.old ? `<span class="price"><span class="now">${money(p.price)}</span><s>${money(p.old)}</s></span>` : `<span class="price">${money(p.price)}</span>`;
+  /* Product photos: free-to-use stock from Pexels (hotlinked). To use your own photo, add img:"images/name.jpg" to a product. */
+  const PHOTO = {1:610945,2:267394,3:3829230,4:4423632,5:16428589,6:1275690,7:157888,8:10388460,9:1638503,10:3682240,11:28726706,12:3952031,13:34939709,14:973406,15:4793328,16:16513597};
+  const COLL_PHOTO = {Electronics:610945,Fashion:16428589,Home:1638503,Beauty:34939709,Sports:4793328};
+  const photo = (id, w) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
+  const imgTag = (src, alt, v) => src ? `<img src="${src}" alt="${esc(alt || "")}" loading="lazy" onerror="this.remove()"${v ? ` style="transform:${v[0]};transform-origin:${v[1]}"` : ""}>` : "";
+  const pic = (p, w, alt, v) => imgTag(p.img || (PHOTO[p.id] ? photo(PHOTO[p.id], w) : ""), alt, v);
   const IC = {
     search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
     user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>',
@@ -114,7 +120,7 @@
     $("#shipBar").innerHTML = left > 0 ? `Add <b>${money(left)}</b> more for free shipping<div class="track"><div class="fill" style="width:${Math.min(100, 100 - left / FREE_SHIP * 100)}%"></div></div>` : `You've unlocked <b>free shipping</b><div class="track"><div class="fill" style="width:100%"></div></div>`;
     box.innerHTML = t.items.map(i => `
       <div class="line-item">
-        <a class="th" href="product.html?id=${i.id}" style="background:${bgOf(i.p)}">${i.p.em}</a>
+        <a class="th" href="product.html?id=${i.id}" style="background:${bgOf(i.p)}">${i.p.em}${pic(i.p, 240)}</a>
         <div><h4><a href="product.html?id=${i.id}">${esc(i.p.name)}</a></h4>
           ${i.variant ? `<small>${esc(i.variant)}</small>` : ""}
           <div class="qty"><button data-dec="${i.key}" aria-label="Decrease quantity">−</button><span>${i.qty}</span><button data-inc="${i.key}" aria-label="Increase quantity">+</button></div>
@@ -171,7 +177,7 @@
         if (!q) { rs.style.display = "none"; return; }
         const hit = PRODUCTS.filter(p => (p.name + " " + p.cat).toLowerCase().includes(q)).slice(0, 6);
         rs.style.display = "block";
-        rs.innerHTML = hit.length ? hit.map(p => `<a href="product.html?id=${p.id}"><span class="th" style="background:${bgOf(p)}">${p.em}</span><span><b style="font-weight:500;color:var(--ink)">${esc(p.name)}</b><br><small>${money(p.price)}</small></span></a>`).join("") : `<p class="muted" style="padding:18px 0">No results for “${esc(si.value)}”. Try a different word.</p>`;
+        rs.innerHTML = hit.length ? hit.map(p => `<a href="product.html?id=${p.id}"><span class="th" style="background:${bgOf(p)}">${p.em}${pic(p, 160)}</span><span><b style="font-weight:500;color:var(--ink)">${esc(p.name)}</b><br><small>${money(p.price)}</small></span></a>`).join("") : `<p class="muted" style="padding:18px 0">No results for “${esc(si.value)}”. Try a different word.</p>`;
       };
     }
     if (!minimal) F.innerHTML = `
@@ -216,7 +222,7 @@
     const out = p.stock < 1, o = off(p);
     return `<article class="pcard">
       <div class="pimg" style="background:${bgOf(p)}">
-        <a href="product.html?id=${p.id}" aria-label="${esc(p.name)}" style="position:absolute;inset:0;display:grid;place-items:center">${p.img ? `<img src="${p.img}" alt="${esc(p.name)}" loading="lazy">` : `<span class="em" aria-hidden="true">${p.em}</span>`}</a>
+        <a href="product.html?id=${p.id}" aria-label="${esc(p.name)}" style="position:absolute;inset:0;display:grid;place-items:center"><span class="em" aria-hidden="true">${p.em}</span>${pic(p, 640, p.name)}</a>
         ${out ? `<span class="tag out">Sold out</span>` : o ? `<span class="tag">Save ${o}%</span>` : ""}
         <button class="quick" data-quick="${p.id}" ${out ? "disabled" : ""}>${p.opts.length ? "Choose options" : "Quick add"}</button>
       </div>
@@ -233,7 +239,7 @@
   /* ---------- Pages ---------- */
   const pages = {
     home() {
-      $("#colls").innerHTML = CATS.map(c => `<a class="coll" href="shop.html?cat=${c.name}" style="background:${c.bg}"><span class="em">${c.em}</span><span class="nm">${c.name}<small>${PRODUCTS.filter(p => p.cat === c.name).length}</small></span></a>`).join("");
+      $("#colls").innerHTML = CATS.map(c => `<a class="coll" href="shop.html?cat=${c.name}" style="background:${c.bg}"><span class="em">${c.em}</span>${imgTag(photo(COLL_PHOTO[c.name], 640), c.name)}<span class="nm">${c.name}<small>${PRODUCTS.filter(p => p.cat === c.name).length}</small></span></a>`).join("");
       $("#best").innerHTML = PRODUCTS.slice().sort((a, b) => b.rev - a.rev).slice(0, 8).map(card).join("");
       $("#sale").innerHTML = PRODUCTS.filter(p => p.old && p.stock).sort((a, b) => off(b) - off(a)).slice(0, 4).map(card).join("");
     },
@@ -271,11 +277,11 @@
       $("#crumbName").textContent = p.name;
       const sel = {}; p.opts.forEach(o => sel[o.n] = o.v[0]);
       const variant = () => p.opts.map(o => sel[o.n]).join(" / ");
-      const out = p.stock < 1, shades = [bgOf(p), "#ecebe6", "#dddcd5", "#f4f3ef"], tf = ["", "rotate(-14deg) scale(.95)", "scale(.7) translateY(18px)", "scaleX(-1) scale(.9)"];
+      const out = p.stock < 1, shades = [bgOf(p)], views = [["scale(1)", "50% 50%"], ["scale(1.9)", "30% 35%"], ["scale(1.9)", "72% 40%"], ["scale(1.9)", "50% 78%"]];
       box.innerHTML = `
       <div class="gallery">
-        <div class="thumbs">${shades.map((s, i) => `<button data-th="${i}" class="${i ? "" : "on"}" style="background:${s}" aria-label="View image ${i + 1}"><span style="transform:${tf[i]};display:block;font-size:1.6rem">${p.em}</span></button>`).join("")}</div>
-        <div class="stage" id="stage" style="background:${shades[0]}"><span class="em" id="stageEm">${p.em}</span>${off(p) ? `<span class="tag">Save ${off(p)}%</span>` : ""}</div>
+        <div class="thumbs">${views.map((v, i) => `<button data-th="${i}" class="${i ? "" : "on"}" style="background:${shades[0]}" aria-label="View image ${i + 1}"><span style="font-size:1.6rem">${p.em}</span>${pic(p, 240, "", v)}</button>`).join("")}</div>
+        <div class="stage" id="stage" style="background:${shades[0]}"><span class="em" id="stageEm">${p.em}</span>${pic(p, 1200, p.name, views[0])}${off(p) ? `<span class="tag">Save ${off(p)}%</span>` : ""}</div>
       </div>
       <div>
         <p class="muted"><a href="shop.html?cat=${p.cat}" class="link" style="font-weight:400">${p.cat}</a></p>
@@ -305,7 +311,7 @@
         sel[g.dataset.opt] = b.dataset.v; $$("[data-v]", g).forEach(x => x.classList.toggle("on", x === b)); $(".opt-l b", g).textContent = b.dataset.v;
         sticky();
       }));
-      $$("[data-th]").forEach(b => b.onclick = () => { const i = +b.dataset.th; $$("[data-th]").forEach(x => x.classList.toggle("on", x === b)); $("#stage").style.background = shades[i]; $("#stageEm").style.transform = tf[i]; });
+      $$("[data-th]").forEach(b => b.onclick = () => { const i = +b.dataset.th; $$("[data-th]").forEach(x => x.classList.toggle("on", x === b)); const im = $("#stage img"); if (im) { im.style.transform = views[i][0]; im.style.transformOrigin = views[i][1]; } });
       $("#addBtn").onclick = () => { Cart.add(p.id, clamp(), variant()); openDrawer("cartDrawer"); };
       $("#buyNow").onclick = () => { Cart.add(p.id, clamp(), variant()); location.href = "checkout.html"; };
       // Sticky add-to-cart
@@ -325,7 +331,7 @@
           <div>
             <div class="cart-head"><span>Product</span><span>Quantity</span><span style="text-align:right">Total</span></div>
             ${t.items.map(i => `<div class="cart-line">
-              <div class="prod"><a class="th" href="product.html?id=${i.id}" style="background:${bgOf(i.p)}">${i.p.em}</a>
+              <div class="prod"><a class="th" href="product.html?id=${i.id}" style="background:${bgOf(i.p)}">${i.p.em}${pic(i.p, 240)}</a>
                 <div><h4 style="font-weight:500"><a href="product.html?id=${i.id}">${esc(i.p.name)}</a></h4>${priceHTML(i.p)}${i.variant ? `<p class="note">${esc(i.variant)}</p>` : ""}</div></div>
               <div><div class="qty" style="margin:0"><button data-dec="${i.key}" aria-label="Decrease quantity">−</button><span>${i.qty}</span><button data-inc="${i.key}" aria-label="Increase quantity">+</button></div>
                 <button class="rm link" data-rm="${i.key}" style="background:none;border:none;margin-left:12px;font-weight:400;color:var(--mute)">Remove</button></div>
@@ -352,7 +358,7 @@
       if (user) { $("#cEmail").value = user.email; $("#cName").value = user.name; }
       function sum() {
         const t = Cart.totals();
-        $("#coItems").innerHTML = t.items.map(i => `<div class="co-item"><div class="th" style="background:${bgOf(i.p)}">${i.p.em}<span class="q">${i.qty}</span></div><div>${esc(i.p.name)}${i.variant ? `<small>${esc(i.variant)}</small>` : ""}</div><span class="price">${money(i.p.price * i.qty)}</span></div>`).join("");
+        $("#coItems").innerHTML = t.items.map(i => `<div class="co-item"><div class="th" style="background:${bgOf(i.p)}">${i.p.em}${pic(i.p, 160)}<span class="q">${i.qty}</span></div><div>${esc(i.p.name)}${i.variant ? `<small>${esc(i.variant)}</small>` : ""}</div><span class="price">${money(i.p.price * i.qty)}</span></div>`).join("");
         $("#coTotals").innerHTML = rowsHTML(t);
         $("#stdPrice").textContent = (t.cp && t.cp.ship) || t.subtotal - t.discount >= FREE_SHIP ? "Free" : money(SHIP.std);
         $("#expPrice").textContent = money(SHIP.exp);
